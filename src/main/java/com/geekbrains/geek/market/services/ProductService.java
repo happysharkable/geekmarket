@@ -22,4 +22,12 @@ public class ProductService {
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
+
+    public List<Product> findByMinPrice(Integer price) { return productRepository.findAllByPriceGreaterThanEqual(price); }
+
+    public List<Product> findByMaxPrice(Integer price) { return productRepository.findAllByPriceLessThanEqual(price); }
+
+    public List<Product> findByMinAndMaxPrice(Integer minPrice, Integer maxPrice) { return productRepository.findAllByPriceGreaterThanEqualAndPriceIsLessThanEqual(minPrice, maxPrice); }
+
+
 }
