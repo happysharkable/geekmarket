@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Controller
 @RequestMapping("/products")
 @AllArgsConstructor
@@ -21,6 +23,32 @@ public class ProductController {
         }
         model.addAttribute("products", productService.findAll(page - 1, 5));
         return "products";
+    }
+
+    @GetMapping(params = {"min"})
+    public String showProductsByMinPrice(Model model, @RequestParam Integer min) {
+        model.addAttribute("products", productService.findByMinPrice(min));
+        return "products";
+    }
+
+    @GetMapping(params = {"max"})
+    public String showProductsByMaxPrice(Model model, @RequestParam Integer max) {
+        model.addAttribute("products", productService.findByMaxPrice(max));
+        return "products";
+    }
+
+    @GetMapping(params = {"min", "max"})
+    public String showProductsByMinAndMaxPrice(Model model, @RequestParam Integer min, @RequestParam Integer max) {
+        if (min != null && max != null) {
+            model.addAttribute("products", productService.findByMinAndMaxPrice(min, max));
+            return "products";
+        } else if (min == null && max == null) {
+            return "redirect:/products";
+        } else if (min != null) {
+            return String.format("redirect:/products?min=%d", min);
+        } else {
+            return String.format("redirect:/products?max=%d", max);
+        }
     }
 
     @GetMapping("/{id}")

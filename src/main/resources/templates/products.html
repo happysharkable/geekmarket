@@ -16,6 +16,11 @@
 <div class="container">
     <div th:replace="~{navigation :: navigation(Products)}" />
     <h1>Каталог товаров</h1>
+    <form class="m-1" th:action="@{/products}" method="get">
+        Цена min <input class="form-control-sm" name="min" type="text" />
+        Цена max <input class="form-control-sm" name="max" type="text" />
+        <input class="btn-secondary" type="submit" value="Фильтровать" />
+    </form>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
